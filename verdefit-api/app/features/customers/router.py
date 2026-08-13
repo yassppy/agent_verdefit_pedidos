@@ -145,3 +145,21 @@ async def update_customer(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="El teléfono o ID de Telegram ya pertenece a otro cliente.",
         )
+
+
+@router.get("/telegram/{telegram_chat_id}", response_model=CustomerRead)
+async def get_customer_by_telegram_id(
+    telegram_chat_id: int,
+    session: Annotated[AsyncSession, Depends(get_session)],
+):
+    """Obtiene los detalles de un cliente por su ID de Telegram (BigInteger)."""
+    statement = select(Customer).where(Customer.telegram_chat_id == telegram_chat_id)
+    result = await session.exec(statement)
+    customer = result.first()
+
+    if not customer:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Cliente no encontrado con ese ID de Telegram.",
+        )
+    return customer
