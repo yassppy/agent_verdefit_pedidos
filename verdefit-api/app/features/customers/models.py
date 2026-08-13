@@ -12,20 +12,28 @@ class CustomerBase(SQLModel):
     """Modelo base con atributos comunes para un cliente."""
 
     name: str = Field(
-        index=True, max_length=100, description="Nombre del cliente completo"
+        index=True, max_length=100, description="Nombre completo del cliente"
     )
     phone: str = Field(
         unique=True, index=True, max_length=11, description="Número de teléfono único"
     )
-    address: str | None = Field(
-        default=None, max_length=255, description="Dirección física de entrega opcional"
+    address: str = Field(
+        max_length=255, description="Dirección exacta de entrega (OBLIGATORIA)"
+    )
+    district: str = Field(
+        max_length=100, description="Distrito de entrega (OBLIGATORIO)"
+    )
+    reference: str | None = Field(
+        default=None,
+        max_length=255,
+        description="Referencia de la dirección (OPCIONAL)",
     )
     telegram_chat_id: int | None = Field(
         default=None,
         sa_type=BigInteger,
         unique=True,
         index=True,
-        description="Identificador único del chat de telegram",
+        description="Identificador único del chat de Telegram",
     )
 
 
@@ -51,6 +59,8 @@ class CustomerUpdate(SQLModel):
     name: str | None = Field(default=None, max_length=100)
     phone: str | None = Field(default=None, max_length=11)
     address: str | None = Field(default=None, max_length=255)
+    district: str | None = Field(default=None, max_length=100)
+    reference: str | None = Field(default=None, max_length=255)
     telegram_chat_id: int | None = None
 
 
