@@ -37,9 +37,11 @@ graph LR
 
 ## Capturas de pantalla
 
-<video controls width="800">
-  <source src="assets/parte01.mp4" type="video/mp4">
-  Tu navegador no soporta el elemento de video.
-</video>
+### Parte 1
 
-![parte02](/assets/parte02.gif)
+[▶ Ver video de demostración](assets/parte01.mp4)
+
+
+### Parte 2
+
+![parte02](assets/parte02.gif)
