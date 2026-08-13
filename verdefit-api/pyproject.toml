@@ -8,7 +8,9 @@ dependencies = [
     "asyncpg>=0.31.0",
     "fastapi[standard]>=0.141.1",
     "ruff>=0.16.2",
+    "scalar-fastapi>=1.8.2",
     "sqlmodel>=0.0.39",
+    "tzdata>=2026.3",
 ]
 
 [dependency-groups]

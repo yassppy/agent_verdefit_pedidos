@@ -1,14 +1,39 @@
+from contextlib import asynccontextmanager
+
 from core.config import settings
+from core.db import init_db
 from fastapi import FastAPI
+from features.customers.models import Customer  # noqa: F401
+from features.customers.router import router as customer_router
 from features.health.router import router as health_router
+from scalar_fastapi import get_scalar_api_reference
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Maneja los eventos de inicio y cierre de la aplicación."""
+    await init_db()
+    yield
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     description="API RESTful de Persistencia para VerdeFit Orders",
+    lifespan=lifespan,  # Ejecutar init_db() al arrancar
 )
 
 app.include_router(health_router, prefix=settings.API_V1_STR)
+app.include_router(customer_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/scalar", include_in_schema=False)
+async def scalar_html():
+    """Renderizar la documentación a Scalar"""
+    return get_scalar_api_reference(
+        openapi_url=app.openapi_url,
+        title=app.title + " - Scalar Docs",
+    )
 
 
 if __name__ == "__main__":
