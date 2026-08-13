@@ -7,6 +7,8 @@ from features.customers.models import Customer  # noqa: F401
 from features.customers.router import router as customer_router
 from features.delivery_zones.models import DeliveryZone  # noqa: F401
 from features.delivery_zones.router import router as delivery_zone_router
+from features.drivers.models import Driver  # noqa: F401
+from features.drivers.router import router as driver_router
 from features.health.router import router as health_router
 from features.products.models import Product  # noqa: F401
 from features.products.router import router as product_router
@@ -31,6 +33,7 @@ app.include_router(health_router, prefix=settings.API_V1_STR)
 app.include_router(customer_router, prefix=settings.API_V1_STR)
 app.include_router(product_router, prefix=settings.API_V1_STR)
 app.include_router(delivery_zone_router, prefix=settings.API_V1_STR)
+app.include_router(driver_router, prefix=settings.API_V1_STR)
 
 
 @app.get("/scalar", include_in_schema=False)
